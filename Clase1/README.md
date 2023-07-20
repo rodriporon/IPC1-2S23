@@ -6,4 +6,4 @@ Netbeans, Eclipse o cualquier otro IDE, solo copien el código y creen un nuevo 
 
 El código está documentado con lo que se explicó en la clase para los que no pudieron estar.
 
-La clase se grabó desde mi computadora, pero con un mal formato, acá está el link:
+La clase se grabó desde mi computadora, pero con un mal formato, acá está el link: https://drive.google.com/file/d/1KkEUvwGk9Ettkx1whRrSpLSoQlCXTbF7/view
