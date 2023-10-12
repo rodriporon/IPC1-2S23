@@ -27,4 +27,12 @@ public class Usuario implements Serializable {
         return contrasena;
     }
     
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    
 }

@@ -5,6 +5,7 @@
 package com.ipc1.clase6;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,6 +24,11 @@ public class Administrador extends Usuario implements Serializable {
     public void registrarProfesor(String codigo, String contrasena, String nombre, String correo) {
         Profesor profesor = new Profesor(nombre, correo, codigo, contrasena);
         DatosGlobales.getInstance().agregarProfesor(profesor);
+    }
+    
+    public void registrarCurso(String codigo, String nombre, int creditos, Profesor profesor) {
+        Curso curso = new Curso(codigo, nombre, creditos, profesor);
+        DatosGlobales.getInstance().agregarCurso(curso);
     }
     
     

@@ -55,4 +55,37 @@ public class ProfesorTableModel extends AbstractTableModel {
         return columnNames[column];
     }
     
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        /*
+        Si no queremos que se edite una columna en específico:
+        return columnIndex != 0; // no permite editar en la columna "codigo"
+        */
+        return true;
+    }
+    
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Profesor profesor = datosGlobales.getPROFESORES().get(rowIndex);
+        
+        switch (columnIndex) {
+            case 0:
+                profesor.setCodigo(aValue.toString());
+                break;
+            case 1:
+                profesor.setNombre(aValue.toString());
+                break;
+            case 2:
+                profesor.setCorreo(aValue.toString());
+                break;
+        }
+        fireTableCellUpdated(rowIndex, columnIndex);
+    }
+    
+    
+    public void actualizarTabla() {
+        fireTableDataChanged();
+    }
+    
+    
 }

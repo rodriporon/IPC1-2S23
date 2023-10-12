@@ -20,10 +20,12 @@ public class DatosGlobales implements Serializable {
     private static DatosGlobales instance;
     private Administrador ADMINISTRADOR;
     private ArrayList<Profesor> PROFESORES;
+    private ArrayList<Curso> CURSOS;
     
     private DatosGlobales() {
         ADMINISTRADOR = null;
         PROFESORES = new ArrayList<>();
+        CURSOS = new ArrayList<>();
     }
     
     public static synchronized DatosGlobales getInstance() {
@@ -53,14 +55,27 @@ public class DatosGlobales implements Serializable {
     public void setPROFESORES(ArrayList<Profesor> PROFESORES) {
         this.PROFESORES = PROFESORES;
     }
+
+    public ArrayList<Curso> getCURSOS() {
+        return CURSOS;
+    }
+
+    public void setCURSOS(ArrayList<Curso> CURSOS) {
+        this.CURSOS = CURSOS;
+    }
     
     public void agregarProfesor(Profesor profesor) {
         PROFESORES.add(profesor);
     }
     
+    public void agregarCurso(Curso curso) {
+        CURSOS.add(curso);
+    }
+    
     public void actualizarConDatos(DatosGlobales datos) {
         this.ADMINISTRADOR = datos.getADMINISTRADOR();
         this.PROFESORES = datos.getPROFESORES();
+        this.CURSOS = datos.getCURSOS();
     }
     
     public void guardarDatos() {

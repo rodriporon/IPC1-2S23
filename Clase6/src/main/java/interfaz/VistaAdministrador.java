@@ -4,13 +4,19 @@
  */
 package interfaz;
 
+import com.ipc1.clase6.Alumno;
+import com.ipc1.clase6.Curso;
 import com.ipc1.clase6.DatosGlobales;
 import com.ipc1.clase6.Profesor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import tablemodels.CursoTableModel;
 import tablemodels.ProfesorTableModel;
 import utils.Almacenadores;
 import utils.Analizadores;
@@ -23,6 +29,7 @@ public class VistaAdministrador extends javax.swing.JFrame {
     private DatosGlobales datosGlobales;
     private ArrayList<Profesor> profesores;
     ProfesorTableModel profesorTableModel = new ProfesorTableModel();
+    CursoTableModel cursoTableModel = new CursoTableModel();
 
     /**
      * Creates new form VistaAdministrador
@@ -49,7 +56,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
         btnCargaMasiva = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
+        pnlCursos = new javax.swing.JPanel();
+        pnlGraficaCantidadAlumnos = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btnAgregar = new javax.swing.JButton();
+        btnMostrarGrafica = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +83,13 @@ public class VistaAdministrador extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -78,7 +98,9 @@ public class VistaAdministrador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
-                .addComponent(btnRegistrar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRegistrar)
+                    .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCargaMasiva)
                 .addGap(24, 24, 24))
@@ -88,27 +110,79 @@ public class VistaAdministrador extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnRegistrar)
-                        .addComponent(btnCargaMasiva))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegistrar)
+                            .addComponent(btnCargaMasiva))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Profesores", jPanel2);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 569, Short.MAX_VALUE)
+        javax.swing.GroupLayout pnlGraficaCantidadAlumnosLayout = new javax.swing.GroupLayout(pnlGraficaCantidadAlumnos);
+        pnlGraficaCantidadAlumnos.setLayout(pnlGraficaCantidadAlumnosLayout);
+        pnlGraficaCantidadAlumnosLayout.setHorizontalGroup(
+            pnlGraficaCantidadAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+        pnlGraficaCantidadAlumnosLayout.setVerticalGroup(
+            pnlGraficaCantidadAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 214, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
+        jTable2.setModel(cursoTableModel);
+        jScrollPane2.setViewportView(jTable2);
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnMostrarGrafica.setText("Mostrar gráfica");
+        btnMostrarGrafica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarGraficaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCursosLayout = new javax.swing.GroupLayout(pnlCursos);
+        pnlCursos.setLayout(pnlCursosLayout);
+        pnlCursosLayout.setHorizontalGroup(
+            pnlCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCursosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlGraficaCantidadAlumnos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlCursosLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addGroup(pnlCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAgregar)
+                            .addComponent(btnMostrarGrafica))
+                        .addGap(0, 116, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        pnlCursosLayout.setVerticalGroup(
+            pnlCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCursosLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(pnlCursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCursosLayout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnMostrarGrafica))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(pnlGraficaCantidadAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Cursos", pnlCursos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,11 +205,15 @@ public class VistaAdministrador extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,16 +241,47 @@ public class VistaAdministrador extends javax.swing.JFrame {
             Almacenadores.agregarProfesores(parsedValues);
         }
     }//GEN-LAST:event_btnCargaMasivaActionPerformed
+    
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int filaSeleccionada = jTable1.getSelectedRow();
+        System.out.println("Fila Seleccionada: " + filaSeleccionada);
+        if (filaSeleccionada != -1) {
+            Profesor profesorAEliminar = profesores.get(filaSeleccionada);
+            profesores.remove(profesorAEliminar);
+            profesorTableModel.actualizarTabla();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        VistaCrearCurso vistaCrearCurso = new VistaCrearCurso(cursoTableModel);
+        vistaCrearCurso.setVisible(true);
+        vistaCrearCurso.setLocationRelativeTo(this);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnMostrarGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarGraficaActionPerformed
+        GraficaBarrasTop3 graficaBarrasTop3 = new GraficaBarrasTop3("Grafica alumnos",
+                "Top 3 - Cursos con más estudiantes");
+        graficaBarrasTop3.setSize(800,400);
+        graficaBarrasTop3.setLocationRelativeTo(this);
+        graficaBarrasTop3.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        graficaBarrasTop3.setVisible(true);
+    }//GEN-LAST:event_btnMostrarGraficaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCargaMasiva;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnMostrarGrafica;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel pnlCursos;
+    private javax.swing.JPanel pnlGraficaCantidadAlumnos;
     // End of variables declaration//GEN-END:variables
 }
