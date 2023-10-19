@@ -1,5 +1,7 @@
 import express from 'express'
 import { findUser, getPatiens } from './data/users.js'
+import { getMedicinas } from './data/medicinas.js'
+import { agregarCompraDeMedicina } from './data/recetas.js'
 
 const router = express.Router()
 
@@ -28,4 +30,23 @@ router.get('/patients', (req, res) => {
     const patients = getPatiens()
     res.json(patients)
 })
+
+router.get('/medicinas', (req, res) => {
+    const medicinas = getMedicinas()
+    res.json(medicinas)
+})
+
+router.post('/compra-medicina', (req, res) => {
+    const { idMedicina, cantidad, idPaciente } = req.body
+
+    agregarCompraDeMedicina({
+        idMedicina,
+        cantidad,
+        idPaciente
+    })
+
+    res.json({ message: 'Compra de medicina agregada con éxito' })
+})
+
+
 export default router
